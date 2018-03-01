@@ -5,3 +5,6 @@
 * Bootstrap
 * JavaScript
 * jQuery
+
+END TIME: 01:17 am
+- Points 1, 2, and 3 were resolved

@@ -176,6 +176,10 @@ $(function () {
     return false;
   };
 
+  $('.daysOfWeek').datepicker();
+  $('.daysOfWeek .ui-datepicker-header').hide();
+  $('.daysOfWeek .ui-datepicker-calendar tbody').hide();
+
   $('#createCalendars').on('click', function (event) {
     event.preventDefault();
 

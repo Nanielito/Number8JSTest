@@ -1,0 +1,32 @@
+#calendarsContainer {
+  display: none;
+}
+
+span.ui-state-default {
+  height: 18px !important;
+}
+
+.weekend {
+  background-color: yellow !important;
+}
+
+.weekday {
+  background-color: green !important;
+}
+
+span.invalid,
+.invalid {
+  background-color: gray !important;
+}
+
+.holiday {
+  background-color: orange !important;
+}
+
+.ui-state-default {
+  border-style: solid !important;
+  border-color: white !important;
+  border-width: thin !important;
+  background: none !important;
+  color: black !important;
+}

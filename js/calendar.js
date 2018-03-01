@@ -107,6 +107,55 @@ $(function () {
     return html;
   };
 
+  function buildDatepicker(identifier, defaultDate) {
+    var selector = '.'.concat(identifier);
+
+    $(selector).datepicker({
+      changeMonth: false,
+      changeYear: false,
+      dateFormat: 'yyyy-mm-dd',
+      defaultDate: defaultDate,
+      beforeShowDay: function (date) {
+        var days = [];
+        return days;
+      }
+    });
+
+    $(selector.concat(' .ui-datepicker-prev')).hide();
+    $(selector.concat(' .ui-datepicker-next')).hide();
+    $(selector.concat(' .ui-datepicker-year')).hide();
+    $(selector.concat(' .ui-datepicker-calendar thead')).hide();
+    $(selector.concat(' .ui-datepicker-calendar tbody td')).attr('onclick', '').unbind('click');
+
+    $.each($(selector.concat(' .ui-datepicker-calendar tbody td')), function () {
+      $(this).removeClass('ui-state-disabled');
+
+      if ($(this).hasClass('ui-datepicker-other-month') === true) {
+        $(this).html('');
+        $(this).prepend('<span class="ui-state-default invalid"></span>');
+      }
+      else if ($(this).hasClass('ui-datepicker-week-end') === true) {
+        $(this).addClass('weekend');
+      }
+      else {
+        $(this).addClass('weekday');
+      }
+    });
+
+    return false;
+  };
+
+  function buildDatepickers(year, months) {
+    for (var i = 0; i < months.length; i += 1) {
+      var identifier = ''.concat(year, MONTHS[months[i]]);
+      var defaultDate = new Date(year, months[i], 1);
+
+      buildDatepicker(identifier, defaultDate);
+    }
+
+    return false;
+  };
+
   function prepare(startDateString, numberOfDays, countryCode, calendarsContainer) {
     var startDate = parseDateString(startDateString);
     var finishDate = getFinishDate(startDate, numberOfDays);
@@ -120,6 +169,10 @@ $(function () {
 
     calendarsContainer.append(html);
 
+    for (var i = 0; i < years.length; i += 1) {
+      buildDatepickers(years[i], calendars[years[i]]);
+    }
+
     return false;
   };
 
@@ -132,7 +185,16 @@ $(function () {
     var calendarsContainer = $('div#calendarsContainer');
 
     if (isValidDate(startDateString) === true) {
+      var datepickers = $('div#calendarsContainer').children();
+
+      if (datepickers.length > 1) {
+        datepickers.slice(1).detach();
+      }
+
       prepare(startDateString, numberOfDays, countryCode, calendarsContainer);
+
+      $('.ui-datepicker').addClass('mx-auto');
+      $('div#calendarsContainer').show();
     }
     else {
       alert('You must enter a valid date format.')
